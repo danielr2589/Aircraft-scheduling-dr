@@ -1,10 +1,10 @@
 <div id="airline-outer-container">
   <div id="header-nav">
-    <button mat-icon-button>
+    <button mat-icon-button (click)="previousDay()">
       <mat-icon>chevron_left</mat-icon>
     </button>
     <span>{{currentDate}}</span>
-    <button mat-icon-button>
+    <button mat-icon-button (click)="nextDay()">
       <mat-icon>chevron_right</mat-icon>
     </button>
   </div>
@@ -35,14 +35,17 @@
         </div>
       </div>
       <div id="timeline-container">
-        <app-timeline></app-timeline>
+        <!-- <app-timeline [items]="items"></app-timeline> -->
+        <div>00:00<div>|</div></div>
+        <div>12:00<div>|</div></div>
+        <div>24:00<div>|</div></div>
       </div>
     </div>
     <div id="right-side">
       <span class="container-title">Flights</span>
       <div id="selected-flights-container">
-        <div class="selected-flight-card-info" *ngFor="let flight of selectedFlights">
-          <div class="flight-header">Flight: {{flight.id}}</div>
+        <div class="selected-flight-card-info" *ngFor="let flight of selectedFlights" (click)="removeFlight(flight)">
+          <div class="selected-flight-header">{{flight.id}}</div>
           <div class="selected-flight-data">
             <div>{{flight.origin}}<div>{{flight.readable_departure}}</div>
             </div>

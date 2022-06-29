@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { catchError, Observable, of } from 'rxjs';
+import { TimelineItem } from './interfaces/timeline-item';
 
 @Component({
   selector: 'app-root',
@@ -11,11 +12,14 @@ import { catchError, Observable, of } from 'rxjs';
 export class AppComponent implements OnInit {
   public title = 'aircraft-scheduler';
 
-  public currentDate = moment().utc().format('Do MMMM YYYY');
+  public currentDateMoment = moment().utc();
+  public currentDate = this.currentDateMoment.format('Do MMMM YYYY');
   public aircraftList: any;
   public selectedFlights: any;
   public flightsOfTheDay: any;
   public log: any;
+  public items: TimelineItem[] = [];
+  public turnaroundTimeSeconds = 1200;
 
   constructor(private http: HttpClient,){
   }
@@ -31,23 +35,44 @@ export class AppComponent implements OnInit {
       console.log(res);
       this.flightsOfTheDay = res.data;    
     });
+
+    this.items.push({
+      label: 'Test 1',
+      icon: 'fa fa-address-book-o',
+      active: true,
+      title: 'Example 1',
+      color: '16a085',
+      command() {
+        console.log('Action 1');
+      }
+    });
+  }
+
+  public nextDay() {
+    this.currentDateMoment.add(1, 'd');
+    this.currentDate = this.currentDateMoment.format('Do MMMM YYYY');
+  }
+
+  public previousDay() {
+    this.currentDateMoment.subtract(1, 'd');
+    this.currentDate = this.currentDateMoment.format('Do MMMM YYYY');
   }
 
   public calculateUsage(aircraft: any){
-
     if (aircraft){
       return '58%'
     }
-
     return '58%'
   }
 
   public selectFlight(flight: any) {
     if (this.selectedFlights.filter((flt: any) => flt.id === flight.id).length !== 1) {
       this.selectedFlights.push(flight);
-
     }
-    console.log(this.selectedFlights);
+  }
+
+  public removeFlight(flight: any) {
+    this.selectedFlights = this.selectedFlights.filter((element:any) => element.id !== flight.id);
   }
 
   getAircrafts(): Observable<any[]> {

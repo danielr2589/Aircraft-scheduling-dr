@@ -20,7 +20,7 @@ import { TimelineComponent } from './components/timeline/timeline.component';
     BrowserAnimationsModule,
     MatButtonModule,
     MatIconModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
