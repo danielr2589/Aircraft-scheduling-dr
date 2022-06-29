@@ -14,7 +14,7 @@
       <div id="aircrafts-container">
         <div class="aircraft-card-info" *ngFor="let aircraft of aircraftList">
           <div>{{aircraft.ident}}</div>
-          <div>({{calculateUsage(aircraft)}})</div>
+          <div>({{totalUsage}})</div>
         </div>
       </div>
     </div>
@@ -34,15 +34,33 @@
           </div>
         </div>
       </div>
+      <mat-paginator [length]="length" [pageSize]="25" [pageSizeOptions]="[25]" (page)="getUpdatedFlights($event)"
+        aria-label="Select page">
+      </mat-paginator>
       <div id="timeline-container">
-        <!-- <app-timeline [items]="items"></app-timeline> -->
-        <div>00:00<div>|</div></div>
-        <div>12:00<div>|</div></div>
-        <div>24:00<div>|</div></div>
+        <div *ngFor="let flight of timelineData">
+          <mat-card
+            [ngClass]="{'active-flight': flight.readable_departure, 'turnaroundTime': flight.turnaround, 'idle-flight': flight.isIdle }">
+            <mat-card-content>
+              <div *ngIf="flight.id">{{flight.id}}</div>
+              <div *ngIf="flight.readable_departure">{{flight.readable_departure}} - {{flight.readable_arrival}}</div>
+            </mat-card-content>
+          </mat-card>
+        </div>
       </div>
     </div>
     <div id="right-side">
-      <span class="container-title">Flights</span>
+      <span class="container-title">
+        <button *ngIf="selectedFlights.length > 0" mat-icon-button [matTooltipPosition]="'above'"
+          matTooltip="Click to clear selections" (click)="clearSelectedFlights()">
+          <mat-icon>refresh</mat-icon>
+        </button>
+        Flights
+        <button *ngIf="selectedFlights.length > 0" mat-icon-button [matTooltipPosition]="'above'"
+          matTooltip="Click to update rotation" (click)="updateRotationSchedule()">
+          <mat-icon>schedule_send</mat-icon>
+        </button>
+      </span>
       <div id="selected-flights-container">
         <div class="selected-flight-card-info" *ngFor="let flight of selectedFlights" (click)="removeFlight(flight)">
           <div class="selected-flight-header">{{flight.id}}</div>

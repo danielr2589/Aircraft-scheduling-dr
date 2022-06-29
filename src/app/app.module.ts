@@ -7,12 +7,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon'
 import { HttpClientModule } from '@angular/common/http';
-import { TimelineComponent } from './components/timeline/timeline.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    TimelineComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -21,6 +23,10 @@ import { TimelineComponent } from './components/timeline/timeline.component';
     MatButtonModule,
     MatIconModule,
     HttpClientModule,
+    MatCardModule,
+    MatTooltipModule,
+    MatSnackBarModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]
